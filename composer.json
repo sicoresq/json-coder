@@ -1,0 +1,25 @@
+{
+  "name": "sicoresq/json-coder",
+  "description": "Tool for encoding/decoding JSON objects based on standard functions",
+  "license": "MIT",
+  "require": {
+    "php": "^7.1",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sicoresq\\JsonCoder\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sicoresq\\JsonCoder\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit tests"
+  }
+}
