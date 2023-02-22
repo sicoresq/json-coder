@@ -27,7 +27,7 @@ final class JsonDecoder
         return json_decode($jsonString, true, 512, $this->defaultOptions | JSON_OBJECT_AS_ARRAY);
     }
 
-    public function decodeAsObject(?string $jsonString): ?object
+    public function decodeAsObject(?string $jsonString): object|array|null
     {
         if (empty($jsonString)) {
             return null;

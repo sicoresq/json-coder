@@ -15,8 +15,8 @@ class JsonDecoderTest extends TestCase
             'a' => 1,
             'b' => ['c' => 'd']
         ]);
-
         self::assertEquals(JsonCoder::decoder()->decodeAsArray($payload), json_decode($payload, true));
+
         self::assertEquals(JsonCoder::decoder()->decodeAsArray('null'), null);
         self::assertEquals(JsonCoder::decoder()->decodeAsArray(null), null);
         self::assertEquals(JsonCoder::decoder()->decodeAsArray(''), null);
@@ -28,8 +28,11 @@ class JsonDecoderTest extends TestCase
             'a' => 1,
             'b' => ['c' => 'd']
         ]);
-
         self::assertEquals(JsonCoder::decoder()->decodeAsObject($payload), json_decode($payload, false));
+
+        $payload = json_encode([[0, 1], ['a', 'b']]);
+        self::assertEquals(JsonCoder::decoder()->decodeAsObject($payload), json_decode($payload, false));
+
         self::assertEquals(JsonCoder::decoder()->decodeAsObject('null'), null);
         self::assertEquals(JsonCoder::decoder()->decodeAsObject(null), null);
         self::assertEquals(JsonCoder::decoder()->decodeAsObject(''), null);
@@ -38,8 +41,8 @@ class JsonDecoderTest extends TestCase
     public function testDecode()
     {
         $payload = json_encode('abc');
-
         self::assertEquals(JsonCoder::decoder()->decode($payload), json_decode($payload, false));
+
         self::assertEquals(JsonCoder::decoder()->decode('null'), null);
         self::assertEquals(JsonCoder::decoder()->decode(null), null);
         self::assertEquals(JsonCoder::decoder()->decode(''), null);
