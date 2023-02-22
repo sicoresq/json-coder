@@ -4,6 +4,11 @@ namespace Sicoresq\JsonCoder;
 
 final class JsonCoder
 {
+    public static function decode($payload)
+    {
+        return self::decoder()->decode($payload);
+    }
+
     public static function decoder(): JsonDecoder
     {
         return new JsonDecoder();
