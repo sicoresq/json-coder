@@ -15,11 +15,11 @@ class JsonDecoderTest extends TestCase
             'a' => 1,
             'b' => ['c' => 'd']
         ]);
-        self::assertEquals(JsonCoder::decoder()->decodeAsArray($payload), json_decode($payload, true));
+        self::assertEquals(json_decode($payload, true), JsonCoder::decoder()->decodeAsArray($payload));
 
-        self::assertEquals(JsonCoder::decoder()->decodeAsArray('null'), null);
-        self::assertEquals(JsonCoder::decoder()->decodeAsArray(null), null);
-        self::assertEquals(JsonCoder::decoder()->decodeAsArray(''), null);
+        self::assertEquals(null, JsonCoder::decoder()->decodeAsArray('null'));
+        self::assertEquals(null, JsonCoder::decoder()->decodeAsArray(null));
+        self::assertEquals(null, JsonCoder::decoder()->decodeAsArray(''));
     }
 
     public function testDecodeAsObject()
@@ -28,23 +28,23 @@ class JsonDecoderTest extends TestCase
             'a' => 1,
             'b' => ['c' => 'd']
         ]);
-        self::assertEquals(JsonCoder::decoder()->decodeAsObject($payload), json_decode($payload, false));
+        self::assertEquals(json_decode($payload, false), JsonCoder::decoder()->decodeAsObject($payload));
 
         $payload = json_encode([[0, 1], ['a', 'b']]);
-        self::assertEquals(JsonCoder::decoder()->decodeAsObject($payload), json_decode($payload, false));
+        self::assertEquals(json_decode($payload, false), JsonCoder::decoder()->decodeAsObject($payload));
 
-        self::assertEquals(JsonCoder::decoder()->decodeAsObject('null'), null);
-        self::assertEquals(JsonCoder::decoder()->decodeAsObject(null), null);
-        self::assertEquals(JsonCoder::decoder()->decodeAsObject(''), null);
+        self::assertEquals(null, JsonCoder::decoder()->decodeAsObject('null'));
+        self::assertEquals(null, JsonCoder::decoder()->decodeAsObject(null));
+        self::assertEquals(null, JsonCoder::decoder()->decodeAsObject(''));
     }
 
     public function testDecode()
     {
         $payload = json_encode('abc');
-        self::assertEquals(JsonCoder::decoder()->decode($payload), json_decode($payload, false));
+        self::assertEquals(json_decode($payload, false), JsonCoder::decoder()->decode($payload));
 
-        self::assertEquals(JsonCoder::decoder()->decode('null'), null);
-        self::assertEquals(JsonCoder::decoder()->decode(null), null);
-        self::assertEquals(JsonCoder::decoder()->decode(''), null);
+        self::assertEquals(null, JsonCoder::decoder()->decode('null'));
+        self::assertEquals(null, JsonCoder::decoder()->decode(null));
+        self::assertEquals(null, JsonCoder::decoder()->decode(''));
     }
 }

@@ -31,5 +31,15 @@ final class JsonCoderTest extends TestCase
             JsonCoder::decode($data),
             JsonCoder::decoder()->decode($data)
         );
+
+        self::assertEquals(
+            JsonCoder::decoder()->decodeAsArray($data),
+            JsonCoder::decodeAsArray($data)
+        );
+
+        self::assertEquals(
+            JsonCoder::decoder()->decodeAsObject($data),
+            JsonCoder::decodeAsObject($data)
+        );
     }
 }

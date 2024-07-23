@@ -11,7 +11,7 @@ final class JsonDecoder
 {
     private int $defaultOptions = JSON_THROW_ON_ERROR;
 
-    public function decode(?string $jsonString)
+    public function decode(?string $jsonString): mixed
     {
         if (empty($jsonString)) {
             return null;
