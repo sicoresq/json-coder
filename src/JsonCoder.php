@@ -29,6 +29,11 @@ final class JsonCoder
         return self::encoder()->encode($payload);
     }
 
+    public static function encodeNullable($payload): ?string
+    {
+        return self::encoder()->encodeNullable($payload);
+    }
+
     public static function encoder(): JsonEncoder
     {
         return new JsonEncoder();

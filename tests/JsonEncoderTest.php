@@ -6,7 +6,9 @@ use PHPUnit\Framework\TestCase;
 use Sicoresq\JsonCoder\JsonCoder;
 use Sicoresq\JsonCoder\JsonEncoder;
 use stdClass;
+
 use function json_encode;
+
 use const JSON_FORCE_OBJECT;
 use const JSON_PRETTY_PRINT;
 use const JSON_UNESCAPED_SLASHES;
@@ -17,9 +19,20 @@ final class JsonEncoderTest extends TestCase
     /**
      * @dataProvider encoderDataProvider
      */
-    public function testEncoder(JsonEncoder $encoder, $payload, $expected)
+    public function testEncode(JsonEncoder $encoder, $payload, $expected)
     {
         self::assertEquals($expected, $encoder->encode($payload));
+        self::assertEquals($expected, $encoder->encodeNullable($payload));
+    }
+
+    public function testEncodeNullable()
+    {
+        $encoder = new JsonEncoder();
+        self::assertNull($encoder->encodeNullable(null));
+        self::assertNull($encoder->encodeNullable(''));
+        self::assertNull($encoder->encodeNullable(' '));
+        self::assertNull($encoder->encodeNullable([]));
+        self::assertEquals('null', $encoder->encode(null));
     }
 
     public function encoderDataProvider()
@@ -36,27 +49,27 @@ final class JsonEncoderTest extends TestCase
             [
                 JsonCoder::encoder(),
                 $arrayPayload,
-                json_encode($arrayPayload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+                json_encode($arrayPayload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             ],
             [
                 JsonCoder::encoder()->withEscapeSlashes(true),
                 $arrayPayload,
-                json_encode($arrayPayload, JSON_UNESCAPED_UNICODE)
+                json_encode($arrayPayload, JSON_UNESCAPED_UNICODE),
             ],
             [
                 JsonCoder::encoder()->withEscapeSlashes(true)->withEscapeUnicode(true),
                 $arrayPayload,
-                json_encode($arrayPayload)
+                json_encode($arrayPayload),
             ],
             [
                 JsonCoder::encoder()->withEscapeSlashes(true)->withEscapeUnicode(true)->withPrettyPrint(true),
                 $objectPayload,
-                json_encode($objectPayload, JSON_PRETTY_PRINT)
+                json_encode($objectPayload, JSON_PRETTY_PRINT),
             ],
             [
                 JsonCoder::encoder()->withEscapeSlashes(true)->withEscapeUnicode(true)->withForceObject(true),
                 $objectPayload,
-                json_encode($objectPayload, JSON_FORCE_OBJECT)
+                json_encode($objectPayload, JSON_FORCE_OBJECT),
             ],
         ];
     }

@@ -3,6 +3,7 @@
 namespace Sicoresq\JsonCoder;
 
 use function json_encode;
+
 use const JSON_FORCE_OBJECT;
 use const JSON_PRETTY_PRINT;
 use const JSON_THROW_ON_ERROR;
@@ -11,11 +12,23 @@ use const JSON_UNESCAPED_UNICODE;
 
 final class JsonEncoder
 {
-    private int $defaultOptions = JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+    private int $options = JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
 
     public function encode($item): string
     {
-        return json_encode($item, $this->defaultOptions);
+        return json_encode($item, $this->options);
+    }
+
+    public function encodeNullable($item): ?string
+    {
+        if (
+            $item === null
+            || (is_array($item) && !$item)
+            || (is_string($item) && !trim($item))
+        ) {
+            return null;
+        }
+        return json_encode($item, $this->options);
     }
 
     public function withThrowError(bool $throwError): self
@@ -46,7 +59,7 @@ final class JsonEncoder
     private function cloneObjectWithOption(bool $set, int $option): self
     {
         $new = clone $this;
-        $new->defaultOptions = $set ? $this->defaultOptions | $option : $this->defaultOptions & ~$option;
+        $new->options = $set ? $this->options | $option : $this->options & ~$option;
         return $new;
     }
 }
