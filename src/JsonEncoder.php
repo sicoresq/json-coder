@@ -28,7 +28,13 @@ final class JsonEncoder
         ) {
             return null;
         }
-        return json_encode($item, $this->options);
+        $encoded = json_encode($item, $this->options);
+
+        if (in_array(trim($encoded), ['null', '', '""', '[]', '{}'], true)) {
+            return null;
+        }
+
+        return $encoded;
     }
 
     public function withThrowError(bool $throwError): self

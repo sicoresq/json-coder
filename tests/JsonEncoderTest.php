@@ -28,10 +28,44 @@ final class JsonEncoderTest extends TestCase
     public function testEncodeNullable()
     {
         $encoder = new JsonEncoder();
+
+        $classEmptyAfterJsonEncode0 = new class implements \JsonSerializable {
+            public $a = 1;
+            public function jsonSerialize()
+            {
+                return [];
+            }
+        };
+        $classEmptyAfterJsonEncode1 = new class implements \JsonSerializable {
+            public $a = 1;
+            public function jsonSerialize()
+            {
+                return new stdClass();
+            }
+        };
+        $classEmptyAfterJsonEncode2 = new class implements \JsonSerializable {
+            public $a = 1;
+            public function jsonSerialize()
+            {
+                return '';
+            }
+        };
+        $classEmptyAfterJsonEncode3 = new class implements \JsonSerializable {
+            public $a = 1;
+            public function jsonSerialize()
+            {
+                return null;
+            }
+        };
+
         self::assertNull($encoder->encodeNullable(null));
         self::assertNull($encoder->encodeNullable(''));
         self::assertNull($encoder->encodeNullable(' '));
         self::assertNull($encoder->encodeNullable([]));
+        self::assertNull($encoder->encodeNullable($classEmptyAfterJsonEncode0));
+        self::assertNull($encoder->encodeNullable($classEmptyAfterJsonEncode1));
+        self::assertNull($encoder->encodeNullable($classEmptyAfterJsonEncode2));
+        self::assertNull($encoder->encodeNullable($classEmptyAfterJsonEncode3));
         self::assertEquals('null', $encoder->encode(null));
     }
 
