@@ -14,9 +14,11 @@ final class JsonEncoder
 {
     private int $options = JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
 
-    public function encode($item): string
+    public function encode($item): ?string
     {
-        return json_encode($item, $this->options);
+        $encoded = json_encode($item, $this->options);
+
+        return $encoded === false ? null : $encoded;
     }
 
     public function encodeNullable($item): ?string
@@ -28,9 +30,9 @@ final class JsonEncoder
         ) {
             return null;
         }
-        $encoded = json_encode($item, $this->options);
+        $encoded = $this->encode($item);
 
-        if (in_array(trim($encoded), ['null', '', '""', '[]', '{}'], true)) {
+        if ($encoded === null || in_array(trim($encoded), ['null', '', '""', '[]', '{}'], true)) {
             return null;
         }
 

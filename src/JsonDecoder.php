@@ -14,23 +14,37 @@ final class JsonDecoder
 
     public function decode(?string $jsonString): mixed
     {
-        if (empty($jsonString)) {
+        if ($jsonString === null || $jsonString === '') {
             return null;
         }
         return json_decode($jsonString, false, 512, $this->options);
     }
 
-    public function decodeAsArray(?string $jsonString): ?array
+    public function decodeAssoc(?string $jsonString): mixed
     {
-        if (empty($jsonString)) {
+        if ($jsonString === null || $jsonString === '') {
+            return null;
+        }
+        return json_decode($jsonString, associative: true, flags: $this->options);
+    }
+
+    /**
+     * @deprecated use decodeAssoc() instead
+     */
+    public function decodeAsArray(?string $jsonString): mixed
+    {
+        if ($jsonString === null || $jsonString === '') {
             return null;
         }
         return json_decode($jsonString, true, 512, $this->options | JSON_OBJECT_AS_ARRAY);
     }
 
-    public function decodeAsObject(?string $jsonString): object|array|null
+    /**
+     * @deprecated will be removed
+     */
+    public function decodeAsObject(?string $jsonString): mixed
     {
-        if (empty($jsonString)) {
+        if ($jsonString === null || $jsonString === '') {
             return null;
         }
         return json_decode($jsonString, false, 512, $this->options | JSON_FORCE_OBJECT);

@@ -69,6 +69,22 @@ final class JsonEncoderTest extends TestCase
         self::assertEquals('null', $encoder->encode(null));
     }
 
+    public function testEncodeReturnsNullOnFailureWithoutThrowError()
+    {
+        $encoder = JsonCoder::encoder()->withThrowError(false);
+        $invalidUtf8 = "\xB1\x31";
+
+        self::assertNull($encoder->encode($invalidUtf8));
+        self::assertNull($encoder->encodeNullable($invalidUtf8));
+        self::assertNull($encoder->encode(NAN));
+    }
+
+    public function testEncodeThrowsOnFailureByDefault()
+    {
+        $this->expectException(\JsonException::class);
+        JsonCoder::encoder()->encode("\xB1\x31");
+    }
+
     public function encoderDataProvider()
     {
         $obj = new stdClass();

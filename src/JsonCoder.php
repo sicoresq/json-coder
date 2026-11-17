@@ -9,12 +9,23 @@ final class JsonCoder
         return self::decoder()->decode($payload);
     }
 
-    public static function decodeAsArray($payload): ?array
+    public static function decodeAssoc($payload): mixed
+    {
+        return self::decoder()->decodeAssoc($payload);
+    }
+
+    /**
+     * @deprecated use decodeAssoc() instead
+     */
+    public static function decodeAsArray($payload): mixed
     {
         return self::decoder()->decodeAsArray($payload);
     }
 
-    public static function decodeAsObject($payload): object|array|null
+    /**
+     * @deprecated will be removed
+     */
+    public static function decodeAsObject($payload): mixed
     {
         return self::decoder()->decodeAsObject($payload);
     }
@@ -24,7 +35,7 @@ final class JsonCoder
         return new JsonDecoder();
     }
 
-    public static function encode($payload): string
+    public static function encode($payload): ?string
     {
         return self::encoder()->encode($payload);
     }
